@@ -1,20 +1,24 @@
 package com.tengfei.term.dao.impl;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.tengfei.term.dao.MongoDBDao;
 
 /**
- * 类名： MongoDBDaoImpl 包名：com.tengfei.term.dao.impl 
- * 作者： houhx 时间： 2014-8-30
- * 下午04:21:11 
- * 描述： TODO(这里用一句话描述这个类的作用)
+ * 类名： MongoDBDaoImpl 包名：com.tengfei.term.dao.impl 作者： houhx 时间： 2014-8-30
+ * 下午04:21:11 描述： TODO(这里用一句话描述这个类的作用)
  */
 public class MongoDBDaoImpl implements MongoDBDao {
 
@@ -88,7 +92,7 @@ public class MongoDBDaoImpl implements MongoDBDao {
 		return false;
 
 	}
-	
+
 	public boolean insertMany(String dbName, String collectionName, List<Document> records) {
 		MongoDatabase db = getDb(dbName);
 		MongoCollection<Document> dbCollection = db.getCollection(collectionName);
@@ -158,160 +162,73 @@ public class MongoDBDaoImpl implements MongoDBDao {
 	// return false;
 	// }
 
-	// @Override
-	// public ArrayList<DBObject> find(String dbName, String collectionName,
-	// Bson filter, int num) {
-	//
-	//
-	// filter.
-	// ArrayList<DBObject> resultList = new ArrayList<DBObject>(); //创建返回的结果集
-	// MongoDatabase db = null;
-	// MongoCollection dbCollection = null;
-	// DBCursor cursor = null;
-	// if(keys!=null && values!=null){
-	// if(keys.length != values.length){
-	// return resultList; //如果传来的查询参数对不对，直接返回空的结果集
-	// }else{
-	// try {
-	// db = getDb(dbName); //获取数据库实例
-	// dbCollection = db.getCollection(collectionName); //获取数据库中指定的collection集合
-	//
-	// BasicDBObject queryObj = new BasicDBObject(); //构建查询条件
-	//
-	// for(int i=0; i<keys.length; i++){ //填充查询条件
-	// queryObj.put(keys[i], values[i]);
-	// }
-	// cursor = dbCollection.find(Bson filter); //查询获取数据
-	// int count = 0;
-	// if(num != -1){ //判断是否是返回全部数据，num=-1返回查询全部数据，num!=-1则返回指定的num数据
-	// while(count<num && cursor.hasNext()){
-	// resultList.add(cursor.next());
-	// count++;
-	// }
-	// return resultList;
-	// }else{
-	// while(cursor.hasNext()){
-	// resultList.add(cursor.next());
-	// }
-	// return resultList;
-	// }
-	// } catch (Exception e) {
-	// // TODO: handle exception
-	// } finally{
-	// if(null != cursor){
-	// cursor.close();
-	// }
-	//// if(null != db){
-	//// db.requestDone(); //关闭数据库请求
-	//// }
-	// }
-	// }
-	// }
-	//
-	// return resultList;
-	// }
-	//
-	//
-	//
-	//
-	//
-	//// @Override
-	//// public boolean isExit(String dbName, String collectionName, String key,
-	//// Object value) {
-	//// // TODO Auto-generated method stub
-	//// DB db = null;
-	//// DBCollection dbCollection = null;
-	//// if(key!=null && value!=null){
-	//// try {
-	//// db = mongoClient.getDB(dbName); //获取数据库实例
-	//// dbCollection = db.getCollection(collectionName);
-	// //获取数据库中指定的collection集合
-	//// BasicDBObject obj = new BasicDBObject(); //构建查询条件
-	//// obj.put(key, value);
-	////
-	//// if(dbCollection.count(obj) > 0) {
-	//// return true;
-	//// }else{
-	//// return false;
-	//// }
-	//// } catch (Exception e) {
-	//// // TODO: handle exception
-	//// e.printStackTrace();
-	//// } finally{
-	//// if(null != db){
-	//// db.requestDone(); //关闭db
-	//// db = null;
-	//// }
-	//// }
-	////
-	//// }
-	//// return false;
-	//// }
-	////
-	//// @Override
-	//// public boolean update(String dbName, String collectionName,
-	//// DBObject oldValue, DBObject newValue) {
-	//// DB db = null;
-	//// DBCollection dbCollection = null;
-	//// WriteResult result = null;
-	//// String resultString = null;
-	////
-	//// if(oldValue.equals(newValue)){
-	//// return true;
-	//// }else{
-	//// try {
-	//// db = mongoClient.getDB(dbName); //获取数据库实例
-	//// dbCollection = db.getCollection(collectionName);
-	// //获取数据库中指定的collection集合
-	////
-	//// result = dbCollection.update(oldValue, newValue);
-	//// resultString = result.getError();
-	////
-	//// return (resultString!=null) ? false : true;
-	//// } catch (Exception e) {
-	//// // TODO: handle exception
-	//// e.printStackTrace();
-	//// } finally{
-	//// if(null != db){
-	//// db.requestDone(); //关闭db
-	//// db = null;
-	//// }
-	//// }
-	////
-	//// }
-	////
-	//// return false;
-	//// }
-	//
-	// /**
-	// * 方法名：main
-	// * 作者：houhx
-	// * 创建时间：2014-8-30 下午04:21:11
-	// * 描述：TODO(这里用一句话描述这个方法的作用)
-	// * @param args
-	// */
-	// public static void main(String[] args) {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	//
-	// public boolean update(String dbName, String collectionName, DBObject
-	// oldValue, DBObject newValue) {
-	// // TODO Auto-generated method stub
-	// return false;
-	// }
-	//
-	// public boolean isExit(String dbName, String collectionName, String key,
-	// Object value) {
-	// // TODO Auto-generated method stub
-	// return false;
-	// }
-	//
-	// public boolean delete(String dbName, String collectionName, String[]
-	// keys,
-	// Object[] values) {
-	// // TODO Auto-generated method stub
-	// return false;
-	// }
+	public List<Document> find(String dbName, String collectionName, Bson filter) {
+
+		return find(dbName, collectionName, filter, null);
+	}
+
+	public List<Document> find(String dbName, String collectionName, Bson filter, LinkedHashSet<String> givenFields) {
+
+		return find(dbName, collectionName, filter, givenFields, null);
+	}
+
+	public List<Document> find(String dbName, String collectionName, Bson filter, LinkedHashSet<String> givenFields,
+			Bson sort) {
+
+		return find(dbName, collectionName, filter, givenFields, sort,-1);
+
+	}
+
+	public List<Document> find(String dbName, String collectionName, Bson filter, LinkedHashSet<String> givenFields,
+			Bson sort, int limit) {
+
+		List<Document> resultList = new ArrayList<Document>(); // 创建返回的结果集
+		MongoDatabase db = null;
+		MongoCollection<Document> dbCollection = null;
+		MongoCursor<Document> cursor = null;
+
+		try {
+			db = getDb(dbName); // 获取数据库实例
+			dbCollection = db.getCollection(collectionName); // 获取数据库中指定的collection集合
+			BasicDBObject fields = new BasicDBObject();
+			if (givenFields != null) {
+				for (String field : givenFields) {
+					fields.append(field, 1);
+				}
+			}
+			FindIterable<Document> iter = null;
+			if (limit <= 0) {
+				if(filter ==null){
+					iter = dbCollection.find().projection(fields).sort(sort);
+				}else {
+					iter = dbCollection.find(filter).projection(fields).sort(sort);
+				}
+				
+			} else {
+				if(filter ==null){
+					iter = dbCollection.find().projection(fields).sort(sort).limit(limit);
+
+				}else{
+					iter = dbCollection.find(filter).projection(fields).sort(sort).limit(limit);
+				}
+			}
+			if (iter == null) {
+				return null;
+			}
+			cursor = iter.iterator();
+			while (cursor.hasNext()) {
+				resultList.add((Document) cursor.next());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (null != cursor) {
+				cursor.close();
+			}
+
+		}
+
+		return resultList;
+	}
 
 }

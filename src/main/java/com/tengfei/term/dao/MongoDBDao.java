@@ -1,8 +1,10 @@
 package com.tengfei.term.dao;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;  
@@ -14,7 +16,7 @@ import com.mongodb.client.MongoDatabase;
  * 时间： 2014-8-30 下午03:46:55 
  * 描述： TODO(这里用一句话描述这个类的作用)  
  */  
-public interface MongoDBDao {  
+public interface MongoDBDao{  
     /** 
      *  
      * 方法名：getDb 
@@ -59,7 +61,24 @@ public interface MongoDBDao {
      * @param records 
      * @return 
      */  
-    public boolean insertMany(String dbName, String collectionName, List<Document> records);  
+    public boolean insertMany(String dbName, String collectionName, List<Document> records);
+	
+    
+    public List<Document> find(String dbName, String collectionName, Bson filter); 
+    
+    /** 返回指定文档列的数据
+     * @param dbName
+     * @param collectionName
+     * @param fileds
+     * @return
+     */
+    public List<Document> find(String dbName, String collectionName, Bson filter,LinkedHashSet<String> fileds );  
+
+
+	public List<Document> find(String dbName, String collectionName, Bson filter, LinkedHashSet<String> givenFields,Bson sort);
+	
+	public List<Document> find(String dbName, String collectionName, Bson filter, LinkedHashSet<String> givenFields,
+			Bson sort, int limit);
 
 //  /** 
 //  *  

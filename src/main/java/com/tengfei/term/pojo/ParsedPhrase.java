@@ -12,6 +12,7 @@ public class ParsedPhrase {
 private String content;
 private String category;
 private String patentId;
+private int field;
 
 public String getContent() {
 	return content;
@@ -40,6 +41,12 @@ public ParsedPhrase(String content, String category, String patentId) {
 	this.content = content;
 	this.category = category;
 	this.patentId = patentId;
+}
+public int getField() {
+	return field;
+}
+public void setField(int field) {
+	this.field = field;
 }
 
 
